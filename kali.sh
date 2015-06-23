@@ -1884,6 +1884,11 @@ if [ "$openvas" != "false" ]; then
   openvas-setup
   #--- Bug fix (target credentials creation)
   mkdir -p /var/lib/openvas/gnupg/
+  #--- Import OpenVas feed gpg key
+  wget http://www.openvas.org/OpenVAS_TI.asc
+  gpg --import OpenVAS_TI.asc
+  #-- Fix for openvas process - now he can die gracefully
+  sed -i -- 's/DODTIME=5/DODTIME=40/g' /etc/init.d/openvas-manager
   #--- Make sure all services are correct
   #openvas-start   #service openvas-manager restart; service openvas-scanner restart; service greenbone-security-assistant restart
   #--- User control
